@@ -2698,3 +2698,16 @@ body.v3 .benefit-card p { line-height: 1.6; }
 body.v3 .checklist li { font-size: 1.02rem; }
 body.v3 .benefit-card h4,
 body.v3 .spec-head h3 { font-size: 1.1rem; }
+
+
+
+/* ---------------------------------------- Inicio: franja «Organiza» -----
+   Solo el logo del Congreso, grande y centrado, con el texto debajo. */
+
+body.v3 .organiza-strip { padding: 32px 0 28px; }
+body.v3 .organiza-strip .container { flex-direction: column; gap: 14px; }
+body.v3 .organiza-strip .marks { border-right: none; padding-right: 0; }
+body.v3 .organiza-strip .logo-event { height: 96px; width: auto; }
+@media (max-width: 640px) {
+  body.v3 .organiza-strip .logo-event { height: 64px; }
+}
