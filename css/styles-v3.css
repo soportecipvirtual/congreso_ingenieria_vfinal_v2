@@ -2589,8 +2589,9 @@ body.v3 .plano-nota {
   height: 56px;
   padding: 0 20px 0 16px;
   border-radius: 999px;
-  background: #25d366;
-  color: #fff;
+  background: #fff;
+  color: #128c4a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   font-weight: 700;
   font-size: 15px;
   text-decoration: none;
@@ -2598,8 +2599,8 @@ body.v3 .plano-nota {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   animation: wa-entrada 0.4s ease 0.8s both;
 }
-.wa-flotante img { width: 28px; height: 28px; object-fit: contain; flex: none; }
-.wa-flotante:hover { background: #1ebe5b; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.26); }
+.wa-flotante img { width: 32px; height: 32px; object-fit: contain; flex: none; }
+.wa-flotante:hover { background: #f3fbf6; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.26); }
 .wa-flotante:focus-visible { outline: 3px solid #0b2545; outline-offset: 3px; }
 
 @keyframes wa-entrada {
@@ -2620,3 +2621,21 @@ body.v3 .plano-nota {
 @media print {
   .wa-flotante { display: none; }
 }
+
+/* ------------------------------------- Patrocinio: tarjetas de retorno ----
+   Fondo blanco con borde de color; el número y las viñetas toman el color
+   del borde (rojo en las impares, azul en las pares). */
+
+.gain-item {
+  --gain-color: var(--red-700);
+  background: #fff;
+  border: 2px solid var(--gain-color);
+  color: #1d1d1f;
+}
+.gain-item:nth-child(odd)  { --gain-color: var(--red-700);  background: #fff; }
+.gain-item:nth-child(even) { --gain-color: var(--navy-800); background: #fff; }
+.gain-num { color: var(--gain-color); }
+.gain-body h3 { color: #1d1d1f; }
+.gain-body p,
+.gain-body li { color: #333; }
+.gain-body li::before { background: var(--gain-color); }
