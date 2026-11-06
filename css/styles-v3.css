@@ -2639,3 +2639,62 @@ body.v3 .plano-nota {
 .gain-body p,
 .gain-body li { color: #333; }
 .gain-body li::before { background: var(--gain-color); }
+
+/* =========================================================================
+   LEGIBILIDAD — tamaños mínimos de texto en todo el sitio
+   Criterio: textos de lectura ≥ 16 px; secundarios ≥ 14–15 px; etiquetas
+   en mayúsculas ≥ 13 px. No se tocan el menú superior ni el pie de página.
+   Para volver atrás, basta con borrar este bloque.
+   ========================================================================= */
+
+/* Etiquetas en mayúsculas */
+body.v3 .eyebrow { font-size: 0.9rem; }
+body.v3 .persona-cargo,
+body.v3 .org-etiqueta,
+body.v3 .equipo-num,
+body.v3 .eje-pill,
+body.v3 .org-decano .persona-cargo,
+body.v3 .eje-nav-link .texto span,
+body.v3 .hero-v3-meta .lbl,
+body.v3 .unit .label { font-size: 0.82rem; }
+body.v3 .eje-tile-num,
+body.v3 .tag,
+body.v3 .sponsor-slots .slot,
+body.v3 .canal-texto small,
+body.v3 .carousel-arrow .txt,
+body.v3 .eje-block > h2,
+body.v3 .eje-prioridad > h2 { font-size: 0.85rem; }
+
+/* Textos secundarios */
+body.v3 .crumb,
+body.v3 .eje-hero .crumb,
+body.v3 .fuente-oficial,
+body.v3 .organiza-strip p { font-size: 0.9rem; }
+body.v3 .form-note,
+body.v3 .pill-list li,
+body.v3 .chip-v3,
+body.v3 .eje-mini span,
+body.v3 .eje-tile-cta,
+body.v3 .equipo-pendiente,
+body.v3 .plano-visibles,
+body.v3 .plano-scroll-aviso,
+body.v3 .plano-nota { font-size: 0.94rem; }
+body.v3 .plano-chips button,
+body.v3 .plano-select,
+body.v3 .plano-select select { font-size: 0.95rem; }
+
+/* Textos de lectura */
+body.v3 .form-head p,
+body.v3 .modality-card p,
+body.v3 .gain-body p,
+body.v3 .gain-body li,
+body.v3 .benefit-card p,
+body.v3 .eje-tile p,
+body.v3 .eje-alcance li,
+body.v3 .eje-indicadores p,
+body.v3 .plano-leyenda li,
+body.v3 .plano-ficha-vacia { font-size: 1rem; }
+body.v3 .benefit-card p { line-height: 1.6; }
+body.v3 .checklist li { font-size: 1.02rem; }
+body.v3 .benefit-card h4,
+body.v3 .spec-head h3 { font-size: 1.1rem; }
