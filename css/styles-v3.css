@@ -2202,7 +2202,7 @@ body.v3 {
   --pl-reserva: var(--gold-500);
   --pl-ocupado: var(--navy-800);
   /* Piso del recinto: es grass, por eso va en verde */
-  --pl-cesped: #9fcf7f;
+  --pl-cesped: #d8dce2;
 }
 
 /* El plano necesita más ancho que el resto de la página: esta sección
