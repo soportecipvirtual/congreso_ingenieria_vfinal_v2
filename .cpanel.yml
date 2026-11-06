@@ -1,0 +1,5 @@
+   ---
+   deployment:
+     tasks:
+       - export DEPLOYPATH=/home/prueba2027/public_html/
+       - /usr/bin/rsync -av --exclude '.git' --exclude '.cpanel.yml' --exclude '.github' --exclude '.claude' --exclude 'CNAME' ./ $DEPLOYPATH
