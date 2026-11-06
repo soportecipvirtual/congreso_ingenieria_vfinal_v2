@@ -2573,3 +2573,50 @@ body.v3 .plano-nota {
   body.v3 .plano-celda { transition: none; }
   body.v3 .plano-celda:hover { transform: none; }
 }
+
+
+/* ------------------------------------------------ Botón flotante WhatsApp
+   Lo crea js/main.js en todas las páginas (initWhatsappFlotante). */
+
+.wa-flotante {
+  position: fixed;
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 90; /* debajo de la cabecera (100) para que el menú móvil lo cubra */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 20px 0 16px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  animation: wa-entrada 0.4s ease 0.8s both;
+}
+.wa-flotante img { width: 28px; height: 28px; object-fit: contain; flex: none; }
+.wa-flotante:hover { background: #1ebe5b; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.26); }
+.wa-flotante:focus-visible { outline: 3px solid #0b2545; outline-offset: 3px; }
+
+@keyframes wa-entrada {
+  from { opacity: 0; transform: translateY(16px) scale(0.9); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* En celulares solo el ícono, para no tapar contenido */
+@media (max-width: 640px) {
+  .wa-flotante { width: 56px; padding: 0; justify-content: center; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .wa-flotante-texto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-flotante { animation: none; transition: none; }
+}
+
+@media print {
+  .wa-flotante { display: none; }
+}

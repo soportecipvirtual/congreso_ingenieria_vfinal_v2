@@ -15,6 +15,7 @@ window.enlaceWhatsApp = function (mensaje) {
 
 document.addEventListener("DOMContentLoaded", () => {
   initWhatsapp();
+  initWhatsappFlotante();
   initNavToggle();
   initCountdown();
   initEjeCards();
@@ -40,6 +41,27 @@ function initWhatsapp() {
     enlace.target = "_blank";
     enlace.rel = "noopener";
   });
+}
+
+// Botón flotante de WhatsApp, visible en todas las páginas. Usa el número
+// de WHATSAPP_COMERCIAL; si está vacío, el botón no aparece.
+function initWhatsappFlotante() {
+  const url = window.enlaceWhatsApp(
+    "Hola, quisiera información sobre el I Congreso Nacional de Ingeniería."
+  );
+  if (!url || document.querySelector(".wa-flotante")) return;
+
+  const boton = document.createElement("a");
+  boton.className = "wa-flotante";
+  boton.href = url;
+  boton.target = "_blank";
+  boton.rel = "noopener";
+  boton.setAttribute("aria-label", "Escríbenos por WhatsApp");
+  boton.title = "Escríbenos por WhatsApp";
+  boton.innerHTML =
+    '<img src="assets/img/whatsapp_logo.png" alt="" width="28" height="28">' +
+    '<span class="wa-flotante-texto">WhatsApp</span>';
+  document.body.appendChild(boton);
 }
 
 function initNavToggle() {
