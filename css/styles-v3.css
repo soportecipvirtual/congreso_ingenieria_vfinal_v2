@@ -2731,8 +2731,5 @@ body.v3 .eje-nav-link.align-end .flecha {
   animation-name: eje-flecha-der, eje-flecha-pulso;
 }
 /* Al pasar el mouse se detiene y queda desplazada (efecto ya existente) */
-body.v3 .eje-nav-link:hover .flecha { animation: none; }
-
-@media (prefers-reduced-motion: reduce) {
-  body.v3 .eje-nav-link .flecha { animation: none; }
-}
+/* Al pasar el mouse la animación se acelera */
+body.v3 .eje-nav-link:hover .flecha { animation-duration: 0.8s; }
