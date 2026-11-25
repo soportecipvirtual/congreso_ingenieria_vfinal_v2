@@ -56,6 +56,14 @@
      cambio en el JSON se vea apenas se recarga la página. */
   var URL_MODULOS = "data/modulos.json";
 
+  /* Hoja de Google Sheets publicada como CSV (Archivo > Compartir >
+     Publicar en la web > pestaña «stands» > .csv). Si tiene una URL, los
+     estados se leen de la hoja; si está vacía, o la hoja no responde en
+     5 segundos, se usa data/modulos.json como respaldo.
+     Columnas de la hoja, con encabezado: codigo | estado | empresa | rubro */
+  var URL_HOJA = "";
+  var ESPERA_HOJA_MS = 5000;
+
   function avisar(texto) {
     if (window.console) console.warn("plano: " + texto);
   }
@@ -100,7 +108,7 @@
     });
   }
 
-  function cargarModulos() {
+  function cargarJSON() {
     if (!window.fetch) return Promise.resolve([]);
     return fetch(URL_MODULOS, { cache: "no-store" })
       .then(function (r) {
@@ -113,6 +121,82 @@
       .catch(function (e) {
         avisar("no se pudo leer " + URL_MODULOS + " (" + e.message + "); todos los módulos se muestran disponibles");
         return [];
+      });
+  }
+
+  /* Lector de CSV: respeta comillas, comas dentro de comillas y saltos
+     de línea de Windows. Devuelve una lista de filas (listas de celdas). */
+  function leerCSV(texto) {
+    var filas = [], fila = [], campo = "", comillas = false;
+    for (var i = 0; i < texto.length; i++) {
+      var c = texto.charAt(i);
+      if (comillas) {
+        if (c === '"' && texto.charAt(i + 1) === '"') { campo += '"'; i++; }
+        else if (c === '"') comillas = false;
+        else campo += c;
+      } else if (c === '"' && campo === "") comillas = true;
+      else if (c === ",") { fila.push(campo); campo = ""; }
+      else if (c === "\n" || c === "\r") {
+        if (c === "\r" && texto.charAt(i + 1) === "\n") i++;
+        fila.push(campo); filas.push(fila); fila = []; campo = "";
+      } else campo += c;
+    }
+    if (campo !== "" || fila.length) { fila.push(campo); filas.push(fila); }
+    return filas;
+  }
+
+  /* Convierte el CSV de la hoja en la misma forma que el JSON:
+     [{ codigo, estado, empresa, rubro }, ...] */
+  function filasDeHoja(texto) {
+    var filas = leerCSV(texto.replace(/^\uFEFF/, ""));
+    if (filas.length < 2) throw new Error("la hoja está vacía");
+    var cab = filas[0].map(function (t) { return t.trim().toLowerCase(); });
+    var iCod = cab.indexOf("codigo"), iEst = cab.indexOf("estado"),
+        iEmp = cab.indexOf("empresa"), iRub = cab.indexOf("rubro");
+    if (iCod < 0 || iEst < 0) throw new Error("faltan las columnas codigo y estado");
+
+    var salida = [];
+    filas.slice(1).forEach(function (f) {
+      var codigo = (f[iCod] || "").trim().toUpperCase();
+      if (!codigo) return;
+      if (/^\d$/.test(codigo)) codigo = "0" + codigo; /* Sheets convierte "01" en 1 */
+      salida.push({
+        codigo: codigo,
+        estado: (f[iEst] || "").trim(),
+        empresa: iEmp >= 0 ? (f[iEmp] || "") : "",
+        rubro: iRub >= 0 ? (f[iRub] || "") : ""
+      });
+    });
+    return salida;
+  }
+
+  function cargarHoja() {
+    return new Promise(function (resolver, rechazar) {
+      var reloj = setTimeout(function () {
+        rechazar(new Error("la hoja no respondió en " + ESPERA_HOJA_MS / 1000 + " s"));
+      }, ESPERA_HOJA_MS);
+      var url = URL_HOJA + (URL_HOJA.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now();
+      fetch(url, { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.text();
+        })
+        .then(function (texto) { clearTimeout(reloj); resolver(filasDeHoja(texto)); })
+        .catch(function (e) { clearTimeout(reloj); rechazar(e); });
+    });
+  }
+
+  /* Primero la hoja de Google; si falla o no hay URL, el JSON */
+  function cargarModulos() {
+    if (!URL_HOJA || !window.fetch || !window.Promise) return cargarJSON();
+    return cargarHoja()
+      .then(function (filas) {
+        if (window.console) console.info("plano: " + filas.length + " módulos leídos de la hoja de Google");
+        return filas;
+      })
+      .catch(function (e) {
+        avisar("no se pudo leer la hoja de Google (" + e.message + "); se usa " + URL_MODULOS);
+        return cargarJSON();
       });
   }
 
