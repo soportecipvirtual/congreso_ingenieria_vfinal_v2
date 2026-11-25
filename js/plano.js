@@ -61,7 +61,7 @@
      estados se leen de la hoja; si está vacía, o la hoja no responde en
      5 segundos, se usa data/modulos.json como respaldo.
      Columnas de la hoja, con encabezado: codigo | estado | empresa | rubro */
-  var URL_HOJA = "";
+  var URL_HOJA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwC3bfZF8pWRKd3Ey1hxC64J30bnXrmTFZ_G_gGres-B9jCpgK6Y2_ybhnWT2NEbb5OEJ3huFTLg1y/pub?gid=477041777&single=true&output=csv";
   var ESPERA_HOJA_MS = 5000;
 
   function avisar(texto) {
